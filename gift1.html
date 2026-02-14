@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gift 1 🎀</title>
+<style>
+body {
+    margin: 0;
+    background-color: #0f0f0f;
+    background-image:
+        linear-gradient(#ff4da6 1px, transparent 1px),
+        linear-gradient(90deg, #ff4da6 1px, transparent 1px);
+    background-size: 30px 30px;
+    font-family: monospace;
+    color: white;
+    overflow-x: hidden;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+body.show { opacity: 1; }
+
+.card {
+    max-width: 90%;
+    width: 350px;
+    margin: 120px auto;
+    background: black;
+    border: 3px solid #ff4da6;
+    box-shadow: 0 0 20px #ff4da6;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.card img { width: 100%; border-radius: 8px; margin-bottom: 15px; }
+
+.back-container { position: absolute; top: 20px; left: 20px; }
+.back-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background: black;
+    color: #ff4da6;
+    border: 2px solid #ff4da6;
+    cursor: pointer;
+    border-radius: 6px;
+}
+.back-container button:hover { background: #ff4da6; color: black; box-shadow: 0 0 15px #ff4da6; }
+
+.gif-corner { position: absolute; top: 20px; right: 20px; }
+.gif-corner img { width: 120px; border-radius: 8px; cursor: pointer; }
+
+.bubble {
+    position: absolute;
+    top: -20px;
+    right: 130px;
+    background: #ff4da6;
+    color: black;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease;
+}
+
+.bubble.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="back-container">
+    <button onclick="goBack()">←</button>
+</div>
+
+<div class="gif-corner">
+    <img src="images/yipi.gif" id="yipiGif">
+    <div class="bubble" id="bubble">yipi! 🎉</div>
+</div>
+
+<div class="card">
+    <h2>THE VALENTINE CARD!!!!</h2>
+    <img src="images/Media.jfif">
+    <p id="card-text"></p>
+</div>
+
+<script>
+// Bubble hover
+const gif = document.getElementById("yipiGif");
+const bubble = document.getElementById("bubble");
+
+gif.addEventListener("mouseenter", () => bubble.classList.add("show"));
+gif.addEventListener("mouseleave", () => bubble.classList.remove("show"));
+
+// Go back
+function goBack() { window.location.href = "index.html"; }
+
+// Typing sound same as main index.html
+let typingSound = new Audio("https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3");
+
+// Text
+const text = `Like our minds are interlinked and our heart beats sync in ways I can’t explain,
+Finding each other in thoughts neither of us had to say.
+There’s a strange kind of peace in that,
+In knowing I’m not alone inside my own mind.
+Because somehow, you’re there too—
+In every moment that feels warm,
+In every second that feels right.
+i hope you spend a great valentine,
+and know that even i might not show up ill be there just like you're here too. `;
+
+const element = document.getElementById("card-text");
+let index = 0;
+
+// Typing function
+function typeWriter() {
+    if (index < text.length) {
+        element.innerHTML += text[index] === "\n" ? "<br>" : text[index];
+
+        typingSound.currentTime = 0;
+        typingSound.play();
+
+        index++;
+        setTimeout(typeWriter, 35);
+    }
+}
+
+// Fade-in + start typing
+window.addEventListener("load", () => {
+    document.body.classList.add("show");
+    setTimeout(typeWriter, 600);
+});
+</script>
+
+</body>
+</html>

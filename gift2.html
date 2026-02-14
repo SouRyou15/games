@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Second Gift 🎁</title>
+<style>
+/* Pink pixel background */
+body {
+    margin: 0;
+    background-color: #0f0f0f;
+    background-image:
+        linear-gradient(#ff4da6 1px, transparent 1px),
+        linear-gradient(90deg, #ff4da6 1px, transparent 1px);
+    background-size: 30px 30px;
+    font-family: monospace;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* centers content vertically */
+    align-items: center;     /* centers horizontally */
+}
+
+/* Title */
+.title {
+    font-size: 50px;
+    font-weight: bold;
+    color: #ffb347;
+    text-shadow: 0 0 10px #f944bd, 0 0 20px #ff00c8;
+    margin-bottom: 30px; /* smaller space below title */
+}
+
+/* Container for GIFs and speech box */
+.gift2-container {
+    display: flex;
+    align-items: center; /* vertically align GIFs with box */
+    gap: 40px;           /* spacing between GIFs and box */
+    position: relative;
+}
+
+/* Individual GIFs */
+.gif-side {
+    width: 150px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #ff4da6;
+}
+
+/* Speech box */
+.speech-box {
+    max-width: 500px;
+    background: black;
+    border: 3px solid #ff4da6;
+    box-shadow: 0 0 20px #ff4da6;
+    padding: 20px;
+    border-radius: 12px;
+    font-size: 20px;
+    text-align: left;
+    font-family: monospace; /* gamish font */
+}
+
+/* Back button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background: black;
+    color: #ff4da6;
+    border: 2px solid #ff4da6;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.back-button:hover {
+    background: #ff4da6;
+    color: black;
+    box-shadow: 0 0 15px #ff4da6;
+}
+</style>
+</head>
+<body>
+
+<button class="back-button" onclick="goBack()">← Back</button>
+
+<div class="title">THE SECOND GIFT</div>
+
+<div class="gift2-container">
+    <img src="images/rivals.webp" alt="Left Gif" class="gif-side">
+    <div class="speech-box">
+        <p>Congratulations, you've obtained the marvel rivals privilege!!! ✨</p>
+        <p>Accepting this gift allows you to choose your partner's character every time and increases the chances of playing any game! :D</p>
+    </div>
+    <img src="images/rivals2.gif" alt="Right Gif" class="gif-side">
+</div>
+
+<script>
+// Fade in body
+window.addEventListener("load", () => {
+    document.body.style.opacity = 1;
+});
+
+// Back button function
+function goBack() {
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

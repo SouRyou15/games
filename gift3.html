@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Ultimate Gift 🎁</title>
+<style>
+/* Pink pixel background */
+body {
+    margin: 0;
+    background-color: #0f0f0f;
+    background-image:
+        linear-gradient(#ff4da6 1px, transparent 1px),
+        linear-gradient(90deg, #ff4da6 1px, transparent 1px);
+    background-size: 30px 30px;
+    font-family: monospace;
+    color: white;
+    text-align: center;
+    overflow-y: auto; /* allow vertical scroll */
+    overflow-x: hidden; 
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+/* Title container */
+.title-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* spacing between words */
+}
+
+/* Each word wrapper */
+.title-word {
+    display: inline-block;
+    min-width: 160px; /* prevent overlap when scaling */
+    font-family: 'Arial Black', 'Impact', sans-serif;
+    font-size: 60px;
+    font-weight: bold;
+    color: #ffb347;
+    text-shadow: 0 0 10px #f944bd, 0 0 20px #ff00c8, 0 0 30px #ffec00;
+    letter-spacing: 3px;
+    opacity: 0;
+    transform: scale(0.5);
+    text-align: center;
+}
+
+/* Word pop animation */
+@keyframes popWord {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1.4); }
+    100% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Coupon container */
+.coupon-container {
+    display: flex;
+    flex-direction: column; /* stack image and note vertically */
+    align-items: center;    /* center horizontally */
+    justify-content: center;
+    margin-top: 40px;
+    width: 100%;
+}
+
+/* Coupon image */
+.coupon-image {
+    width: 300px;
+    max-width: 90%;
+    border: 3px solid #ff4da6;
+    border-radius: 12px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+/* Note box (gamish style) */
+.note-box {
+    display: inline-block;
+    background: black; 
+    border: 3px solid #ff4da6; 
+    box-shadow: 0 0 15px #ff4da6; 
+    padding: 15px 25px; 
+    border-radius: 10px; 
+    font-size: 20px;
+    font-family: 'Brush Script MT', cursive, fantasy;
+    max-width: 80%;
+    text-align: center;
+    margin: 20px auto 0 auto; 
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+/* Confetti */
+.confetti-piece {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    opacity: 0.2;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* Back button */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background: black;
+    color: #ff4da6;
+    border: 2px solid #ff4da6;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.back-button:hover {
+    background: #ff4da6;
+    color: black;
+    box-shadow: 0 0 15px #ff4da6;
+}
+</style>
+</head>
+<body>
+
+<button class="back-button" onclick="goBack()">← Back</button>
+
+<div class="title-container">
+    <div class="title-word" id="word1">THE- </div>
+    <div class="title-word" id="word2">ULTIMATE- </div>
+    <div class="title-word" id="word3">GIFT</div>
+</div>
+
+<div class="coupon-container">
+    <img src="images/coupon2.png" alt="Ultimate Gift Coupon" class="coupon-image" id="couponImg">
+
+    <div class="note-box">
+        You may only use this coupon <strong>one time</strong>. Choose wisely and enjoy your ultimate reward!
+        <p>(I advise you to screenshot it)</p>
+    </div>
+</div>
+
+<!-- Sound for title pop -->
+<audio id="popSound" src="https://assets.mixkit.co/active_storage/sfx/1702/1702-preview.mp3"></audio>
+
+<script>
+// Fade in body
+window.addEventListener("load", () => {
+    document.body.style.opacity = 1;
+
+    const words = [
+        document.getElementById("word1"),
+        document.getElementById("word2"),
+        document.getElementById("word3")
+    ];
+
+    const popSound = document.getElementById("popSound");
+
+    // Pop words one by one
+    words.forEach((word, i) => {
+        setTimeout(() => {
+            word.style.animation = "popWord 0.8s forwards";
+            popSound.currentTime = 0;
+            popSound.play();
+        }, i * 900);
+    });
+
+    // Show coupon image after words
+    setTimeout(() => {
+        const img = document.getElementById("couponImg");
+        img.style.opacity = 1;
+        img.style.transform = "scale(1)";
+    }, 3000);
+
+    // Show note under image
+    setTimeout(() => {
+        const note = document.querySelector(".note-box");
+        note.style.opacity = 1;
+        note.style.transform = "translateY(0)";
+    }, 3800);
+
+    // Launch confetti
+    setTimeout(() => {
+        launchConfetti(50);
+    }, 4200);
+});
+
+// Back button
+function goBack() { window.location.href = "index.html"; }
+
+// Confetti function
+function launchConfetti(count) {
+    for(let i=0;i<count;i++){
+        const c = document.createElement("div");
+        c.className = "confetti-piece";
+        c.style.left = Math.random()*100 + "vw";
+        c.style.animationDuration = (3 + Math.random()*2) + "s";
+        c.style.background = `hsl(${Math.random()*360},80%,60%)`;
+        c.style.opacity = 0.2 + Math.random()*0.3;
+        c.style.width = 4 + Math.random()*6 + "px";
+        c.style.height = 4 + Math.random()*6 + "px";
+        document.body.appendChild(c);
+        setTimeout(() => { c.remove(); }, 5000);
+    }
+}
+</script>
+
+</body>
+</html>

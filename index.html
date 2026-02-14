@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine 💖</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="gif-container">
+    <img src="images/standard.png" alt="Valentine GIF">
+</div>
+
+<div class="dialogue-box">
+    <span id="text"></span>
+</div>
+
+<!-- Initial YES/NO buttons -->
+<div class="buttons" id="initialButtons">
+    <button class="yes" id="yesBtn">YES 💕</button>
+    <button class="no" id="noBtn">NO ???</button>
+</div>
+
+<!-- Gift buttons container (hidden at start) -->
+<div class="gift-container" id="giftContainer">
+    <button onclick="chooseGift(1)">🎀 Gift 1</button>
+    <button onclick="chooseGift(2)">💝 Gift 2</button>
+    <button onclick="chooseGift(3)">🌸 Gift 3</button>
+</div>
+
+<!-- Optional reset button -->
+<button onclick="resetValentine()" style="position:absolute; bottom:20px; right:20px;">Reset</button>
+
+<script>
+const textElement = document.getElementById("text");
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const initialButtons = document.getElementById("initialButtons");
+const giftContainer = document.getElementById("giftContainer");
+const gif = document.querySelector(".gif-container img");
+
+let chaseCount = 0;
+let typingSound = new Audio("https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3");
+let magicSound = new Audio("https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3");
+
+const gifs = {
+    default: "images/standard.png",
+    yes: "images/yes.png",
+    gift: "images/gift.png",
+    no: "images/no.png"
+};
+
+/* Typing effect */
+function typeText(message, callback = null) {
+    textElement.innerHTML = "";
+    let index = 0;
+
+    let interval = setInterval(() => {
+        textElement.innerHTML += message[index];
+        typingSound.currentTime = 0;
+        typingSound.play();
+        index++;
+
+        if (index >= message.length) {
+            clearInterval(interval);
+            if (callback) setTimeout(callback, 500);
+        }
+    }, 40);
+}
+
+/* NO chase */
+noBtn.addEventListener("mouseover", function() {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    chaseCount++;
+    if (chaseCount > 5) {
+        gif.src = gifs.no;
+        typeText("* Stop chasing that. It's not gonna work. >:(");
+    }
+});
+
+/* YES clicked */
+yesBtn.addEventListener("click", () => {
+    localStorage.setItem("valentineYes", "true");
+    initialButtons.style.display = "none";
+    gif.src = gifs.yes;
+
+    typeText("* You said YES... 💖✨", () => {
+        gif.src = gifs.gift;
+        typeText("* Choose your gift. 🎁", () => {
+            magicSound.play();
+            giftContainer.classList.add("show");
+        });
+    });
+});
+
+/* Gift buttons open separate pages */
+function chooseGift(number) {
+    magicSound.play();
+    document.body.style.transition = "opacity 0.7s ease";
+    document.body.style.opacity = 0;
+
+    setTimeout(() => {
+        window.location.href = `gift${number}.html`;
+    }, 700);
+}
+
+/* Reset button for testing */
+function resetValentine() {
+    localStorage.removeItem("valentineYes");
+    location.reload();
+}
+
+/* Initial page load */
+window.addEventListener("load", () => {
+    if (localStorage.getItem("valentineYes") === "true") {
+        // Previously clicked YES, skip question
+        initialButtons.style.display = "none";
+        giftContainer.classList.add("show");
+        typeText("* Choose your gift. 🎁");
+        gif.src = gifs.gift;
+    } else {
+        // First visit or reset
+        gif.src = gifs.default;
+        typeText("* Will you be my Valentine? 💗");
+    }
+});
+</script>
+
+</body>
+</html>
